@@ -12,7 +12,7 @@ class Render(QWidget, Ui_GetMyRender):
 
         self.setupUi(self)
         self.add_shot()
-        self.shot_data = file_name ='{}\\config\\shot_data.json'.format(os.path.dirname(__file__))
+        self.shot_data = '{}\\config\\shot_data.json'.format(os.path.dirname(__file__))
         self.Render_Data.itemClicked.connect(self.display_shot_name)
         self.Import_Render.clicked.connect(self.get_render)
         self.ImportScript.clicked.connect(self.get_script)
