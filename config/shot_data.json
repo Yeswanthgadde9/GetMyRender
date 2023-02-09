@@ -1,0 +1,12 @@
+{
+    "Test_V001": {
+        "path": "C:/Users/Yeswanth gadde/Desktop/test_001/test_v001.%04d.exr",
+        "script": "C:/Users/Yeswanth gadde/Desktop/Test_v002.001.nk",
+        "start_frame": "0076",
+        "end_frame": "0144",
+        "thumbnail_path": "F:/Tools/GetMyRender/thumbnails/Test_V001_0076.png",
+        "chanels": "rgb",
+        "date": "31/01/2023-22:35:12",
+        "resolution": "HD_720"
+    }
+}

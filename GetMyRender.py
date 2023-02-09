@@ -1,25 +1,28 @@
 import sys
+import os
 import json
+import nuke
+import nukescripts
 from PySide2.QtWidgets import *
 from PySide2.QtCore import *
 from PySide2.QtGui import *
-from GetMyRenderUI import Ui_GetMyRender
+from GetMyRender_UI import Ui_GetMyRender
 
 
 class Render(QWidget, Ui_GetMyRender):
     def __init__(self):
         super(Render, self).__init__()
-
         self.setupUi(self)
         self.add_shot()
-        self.shot_data = '{}\\config\\shot_data.json'.format(os.path.dirname(__file__))
         self.Render_Data.itemClicked.connect(self.display_shot_name)
         self.Import_Render.clicked.connect(self.get_render)
         self.ImportScript.clicked.connect(self.get_script)
         self.Render_Data.setContextMenuPolicy(Qt.CustomContextMenu)
         self.Render_Data.customContextMenuRequested.connect(self.custom_context_menu)
+        self.show()
 
     def add_shot(self):
+        self.shot_data = '{}\\config\\shot_data.json'.format(os.path.dirname(__file__))
         with open(self.shot_data, "r") as file:
             self.shot_data = json.load(file)
             for shot in self.shot_data:
@@ -63,17 +66,14 @@ class Render(QWidget, Ui_GetMyRender):
         delete = self.menu.addAction('Delete')
         action = self.menu.exec_(self.Render_Data.mapToGlobal(pos))
         item_name = self.Render_Data.currentItem().text()
-        print(item_name)
         if action == open:
             paths = self.shot_data[item_name]['script']
             paths = paths.split('/')
             latest_path = paths.pop()
             f_path = '/'.join(paths)
-            QDesktopServices.openUrl(QtCore.QUrl.fromLocalFile(f_path))
+            QDesktopServices.openUrl(QUrl.fromLocalFile(f_path))
         elif action == delete:
-            print("deleted")
             del self.shot_data[item_name]
-            print(self.shot_data)
             self.write_json_data(self.shot_data)
 
     def write_json_data(self, data):
@@ -88,6 +88,3 @@ class Render(QWidget, Ui_GetMyRender):
 def main():
     main.widgets = Render()
     main.widgets.show()
-
-
-main()
