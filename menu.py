@@ -1,4 +1,4 @@
-import nuke 
+import nuke
 import Get_My_Render_Export_Data
 menubar = nuke.menu("Nuke")
 m = menubar.addMenu("Yesh")

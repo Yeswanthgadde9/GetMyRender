@@ -88,7 +88,7 @@ class Ui_GetMyRender(object):
         self.Thumbnail_label = QtWidgets.QLabel(GetMyRender)
         self.Thumbnail_label.setEnabled(True)
         self.Thumbnail_label.setMinimumSize(QtCore.QSize(300, 250))
-        self.Thumbnail_label.setMaximumSize(QtCore.QSize(300, 250))
+        self.Thumbnail_label.setMaximumSize(QtCore.QSize(400, 400))
         self.Thumbnail_label.setStyleSheet("")
         self.Thumbnail_label.setText("")
         self.Thumbnail_label.setScaledContents(True)

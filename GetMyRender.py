@@ -21,6 +21,7 @@ class Render(QWidget, Ui_GetMyRender):
         self.Render_Data.customContextMenuRequested.connect(self.custom_context_menu)
         self.show()
 
+
     def add_shot(self):
         self.shot_data = '{}\\config\\shot_data.json'.format(os.path.dirname(__file__))
         with open(self.shot_data, "r") as file:
@@ -60,6 +61,7 @@ class Render(QWidget, Ui_GetMyRender):
         read = nuke.createNode("Read")
         read.knob("file").fromUserText(self.render_path)
 
+
     def custom_context_menu(self, pos):
         self.menu = QMenu()
         open = self.menu.addAction('Open')
@@ -67,18 +69,19 @@ class Render(QWidget, Ui_GetMyRender):
         action = self.menu.exec_(self.Render_Data.mapToGlobal(pos))
         item_name = self.Render_Data.currentItem().text()
         if action == open:
-            paths = self.shot_data[item_name]['script']
-            paths = paths.split('/')
-            latest_path = paths.pop()
-            f_path = '/'.join(paths)
-            QDesktopServices.openUrl(QUrl.fromLocalFile(f_path))
+            paths = self.shot_data[item_name]['path']
+            paths = paths.split('/')[:-1]
+            latest_path = ('/').join(paths)
+            QDesktopServices.openUrl(QUrl.fromLocalFile(latest_path))
         elif action == delete:
             del self.shot_data[item_name]
             self.write_json_data(self.shot_data)
 
+
     def write_json_data(self, data):
         with open(self.shot_data, "w") as file:
             json.dump(self.shot_data, file, indent=4)
+
 
     def get_script(self):
         nukescripts.clear_selection_recursive()

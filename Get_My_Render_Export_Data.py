@@ -2,6 +2,7 @@ import json
 import os
 from datetime import datetime
 import nuke
+import nukescripts
 
 
 class GetMyData:
@@ -12,14 +13,15 @@ class GetMyData:
 
     def get_details(self):
         details = {}
-        self.node = nuke.selectedNode()
-        self.path = self.node['file'].value()
+        self.node = nuke.thisNode()
+        self.path = self.node['file'].getValue()
         script = nuke.root()
         format = self.node.format().name()
         script = script['name'].value()
         self.c_time = datetime.now()
         self.channels = self.node['channels'].value()
-        frame_path = self.path.split('.')[0]
+        frame_path = self.path.split('/')[:-1]
+        frame_path = ('/').join(frame_path)
         for folder, subfolder, files in os.walk(frame_path):
             self.frames = [files[frame] for frame in (0,-1)]
         self.start_frame = self.frames[0].split('.')[1]
@@ -35,29 +37,29 @@ class GetMyData:
         return details
 
     def make_thumbnail(self):
+        nukescripts.clear_selection_recursive()
         del_nodes = []
         read_path = self.path.replace('%04d', str(self.start_frame))
         read = nuke.createNode('Read')
         read['file'].setValue(read_path)
+        read.setSelected(True)
         del_nodes.append(read)
         reformat = nuke.nodes.Reformat(format='square_512', pbb=True, resize='fill', black_outside=True)
         reformat.setInput(0, read)
+        reformat.setSelected(True)
         del_nodes.append(reformat)
-        write = nuke.nodes.Write(file=self.thumbnail_path)
+        write = nuke.createNode("Write")
+        write['file'].setValue(self.thumbnail_path)
         write['file_type'].setValue('png')
         write.setInput(0, reformat)
+        write.setSelected(True)
         del_nodes.append(write)
-        try :
-            nuke.execute(write, 1, 1)
-            for nodes in del_nodes:
-                nuke.delete(nodes)
-        except:
-            for nodes in del_nodes:
-                nuke.delete(nodes)
+        nuke.execute(write, 1, 1)
+        for nodes in del_nodes:
+            nuke.delete(nodes)
 
     def write_json(self, new_data):
         file_name ='{}\\config\\shot_data.json'.format(os.path.dirname(__file__))
-        print(file_name)
         file_data = {}
         try:
             with open(file_name, 'r') as data_file:
