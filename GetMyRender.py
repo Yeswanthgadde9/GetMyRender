@@ -91,3 +91,11 @@ class Render(QWidget, Ui_GetMyRender):
 def main():
     main.widgets = Render()
     main.widgets.show()
+# def main():
+#     App = QApplication(sys.argv)
+#     window = Render()
+#     sys.exit(App.exec_())
+
+
+# if __name__ == '__main__':
+#     main()
