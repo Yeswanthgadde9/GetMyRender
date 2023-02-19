@@ -1,4 +1,12 @@
 # GetMyRender
+This is a simple tools whih creates thumbnails for evry render automatically
+Artist can use this tool to load their last 10 renders along with nuke scripts 
+
+How to use:
+Open any nuke file and render it using Dispatcher 
+
+Installation:
+
 add the project path to your init file in .nuke directory
 
 example - nuke.pluginAddPath(r"F:\Yesh\Tools\")
