@@ -23,11 +23,14 @@ class Render(QWidget, Ui_GetMyRender):
 
 
     def add_shot(self):
-        self.shot_data = '{}\\config\\shot_data.json'.format(os.path.dirname(__file__))
-        with open(self.shot_data, "r") as file:
-            self.shot_data = json.load(file)
-            for shot in self.shot_data:
-                self.Render_Data.addItem(shot)
+            try:
+                self.shot_data = '{}\\config\\shot_data.json'.format(os.path.dirname(__file__))
+                with open(self.shot_data, "r") as file:
+                    self.shot_data = json.load(file)
+                    for shot in self.shot_data:
+                        self.Render_Data.addItem(shot)
+            except:
+                IOError
 
     def display_shot_name(self, shot):
         self.shot_name = shot.text()
@@ -91,11 +94,3 @@ class Render(QWidget, Ui_GetMyRender):
 def main():
     main.widgets = Render()
     main.widgets.show()
-# def main():
-#     App = QApplication(sys.argv)
-#     window = Render()
-#     sys.exit(App.exec_())
-
-
-# if __name__ == '__main__':
-#     main()
